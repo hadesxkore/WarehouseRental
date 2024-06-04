@@ -1,0 +1,202 @@
+.detailed-view-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .detailed-view-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .image-carousel {
+    width: 100%;
+
+    max-width: 600px;
+  }
+  
+  .warehouse-details {
+    margin-top: 20px;
+  }
+  
+  .map-container {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .map-container .leaflet-container {
+    height: 900px;
+    border-radius: 6px;
+  }
+  
+  /* Styles for the carousel arrows */
+  .carousel .control-arrow {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+  }
+  
+  .carousel .control-arrow:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  /* CSS */
+.amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Three columns */
+    gap: 1rem; /* Adjust as needed */
+    margin-bottom: 1rem; /* Adjust as needed */
+}
+
+.amenities-item {
+    display: flex;
+    align-items: center;
+    /* Additional styling for each amenity item */
+}
+/* CSS */
+.amenities-card {
+    background-color: #ffffff; /* White background */
+    border-radius: 0.5rem; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 1rem; /* Padding inside the card */
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.amenities-card img {
+    margin-right: 0.5rem; /* Space between the icon and the text */
+}
+
+.amenities-card:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+}
+.card {
+  margin-left: 20px;
+  background-color: #ffffff; /* White background */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 20px; /* Inner padding */
+  transition: transform 0.3s, box-shadow 0.3s; /* Smooth hover effect */
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Lift up on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+}
+
+.card h1 {
+  margin-bottom: 16px;
+  font-size: 1.875rem; /* 3xl */
+  font-weight: 600; /* font-semibold */
+}
+
+.card .text-lg {
+  margin-bottom: 16px;
+  font-size: 1.125rem; /* lg */
+}
+
+.card .text-green-500 {
+  color: #48bb78; /* Tailwind green-500 */
+}
+/* Container styles */
+.detailed-view-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9fafb;
+}
+
+/* Card styles */
+.card {
+    margin-left: 20px;
+    background-color: #ffffff; /* White background */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Inner padding */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth hover effect */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Lift up on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+}
+
+/* Heading styles */
+.card h1 {
+    margin-bottom: 16px;
+    font-size: 1.875rem; /* 3xl */
+    font-weight: 600; /* font-semibold */
+    color: #1a202c; /* Darker color */
+}
+
+/* Text styles */
+.card .text-lg {
+    margin-bottom: 16px;
+    font-size: 1.125rem; /* lg */
+    color: #4a5568; /* Cool gray color */
+}
+
+/* Highlight styles */
+.card .text-green-500 {
+    color: #48bb78; /* Tailwind green-500 */
+}
+
+/* Amenities grid styles */
+.amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Three columns */
+    gap: 1rem; /* Adjust as needed */
+    margin-bottom: 1rem; /* Adjust as needed */
+}
+
+/* Amenities card styles */
+.amenities-card {
+    background-color: #ffffff; /* White background */
+    border-radius: 0.5rem; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 1rem; /* Padding inside the card */
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.amenities-card:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+}
+
+/* Amenities icon styles */
+.amenities-icon {
+    width: 24px; /* Icon size */
+    height: 24px; /* Icon size */
+    margin-right: 0.5rem; /* Space between the icon and the text */
+}
+
+/* Additional styling for the overall layout */
+.carousel-container {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+.details-container {
+    padding-left: 20px;
+}
+
+.warehouse-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.uploader-info {
+    margin-bottom: 16px;
+    color: #4a5568;
+}
+
+.text-lg strong {
+    color: #2d3748;
+}

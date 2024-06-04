@@ -1,0 +1,12 @@
+.footer-section {
+    flex: 1 1 50%; /* Equal width for medium and larger screens */
+    max-width: 50%; /* Maximum width for larger screens */
+    margin-bottom: 20px; /* Add bottom margin */
+}
+
+@media screen and (max-width: 768px) {
+    .footer-section {
+        flex: 1 1 100%; /* Full width for smaller screens */
+        max-width: 100%; /* Maximum width for smaller screens */
+    }
+}
