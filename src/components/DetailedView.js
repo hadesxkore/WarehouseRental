@@ -28,6 +28,7 @@ const DetailView = () => {
     const [mapCenter, setMapCenter] = useState([0, 0]); // Initial map center
 
     const { warehouse, uploaderInfo } = location.state || {};
+    const [userWarehouses, setUserWarehouses] = useState([]);
 
     const [show360Modal, setShow360Modal] = useState(false);
     const [image360Url, setImage360Url] = useState('');
@@ -97,7 +98,24 @@ const handleFullscreen = () => {
     }
 };
 
+useEffect(() => {
+    const fetchUserWarehouses = async () => {
+        try {
+            // Assuming you have access to the warehouse owner's userUid
+            const warehouseOwnerUid = warehouse.userUid || uploaderInfo?.uid; // Assuming uploaderInfo contains the warehouse owner's information
+            if (warehouseOwnerUid) {
+                const userWarehousesSnapshot = await firestore.collection('warehouses').where('userUid', '==', warehouseOwnerUid).get();
+                const userWarehouses = userWarehousesSnapshot.docs.map(doc => doc.data());
+                // Update state with user warehouses
+                setUserWarehouses(userWarehouses);
+            }
+        } catch (error) {
+            console.error('Error fetching user warehouses:', error);
+        }
+    };
 
+    fetchUserWarehouses();
+}, [warehouse.userUid, uploaderInfo?.uid]); // Dependency array includes userUid and uploaderInfo.uid
 const initPanoramaViewer = (imageUrl) => {
     const viewerContainer = document.getElementById('panolens-container');
 
@@ -157,7 +175,7 @@ const handleCloseModal = () => {
                                     throw new Error('Owner UID is undefined');
                                 }
                                 
-                                const rentedWarehouseRef = await firestore.collection('rentedWarehouses').doc();
+                                const rentedWarehouseRef = await firestore.collection('rentedWarehouses').doc();    
                                 await rentedWarehouseRef.set({
                                     warehouseId: rentedWarehouseRef.id,
                                     userUid: user.uid,
@@ -278,7 +296,7 @@ const handleCloseModal = () => {
             <div className="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
                 <div className="container mx-auto px-4 py-8">
                     <div className="bg-white rounded-lg shadow-lg p-8 md:flex">
-                        <div className="md:w-1/2 mb-8 md:mb-0 mt-24">
+                        <div className="md:w-1/2 mb-8 md:mb-0 mt-2">
                         <Carousel showThumbs={false} showArrows={true} infiniteLoop={true} autoPlay={true} interval={5000} transitionTime={500}>
                                 {warehouse.images.map((imageUrl, index) => (
                                     <div key={index}>
@@ -286,10 +304,41 @@ const handleCloseModal = () => {
                                     </div>
                                 ))}
                             </Carousel>
+                            <button
+                                type="button"
+                                className="bg-green-500 text-white font-semibold py-2 px-4 w-full mt-4 rounded hover:bg-green-600 transition duration-300"
+                                onClick={() => handleShow360Tour(warehouse.image360Url)}
+                            >
+                                Show 360 Tour
+                            </button>
+                            <h2 className="text-lg font-semibold mt-4">Other Warehouses You Might Like</h2>
+                            {userWarehouses && userWarehouses.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                {userWarehouses.map((warehouse, index) => (
+                    <div key={index} className="bg-white rounded-lg shadow-lg p-4">
+              <Carousel showThumbs={false} showArrows={true} infiniteLoop={true} autoPlay={true} interval={5000} transitionTime={500}>
+                        {warehouse.images.map((imageUrl, imageIndex) => (
+                            <div key={imageIndex}>
+                                <img src={imageUrl} alt={`Warehouse Image ${index + 1}`} className="rounded-lg" />
+                            </div>
+                        ))}
+                    </Carousel>
+                        <h3 className="text-xl font-semibold mb-2">{warehouse.name}</h3>
+                        <p className="text-x">Lessor: {uploaderInfo ? `${uploaderInfo.first_name} ${uploaderInfo.last_name}` : 'Unknown'}</p>
+                        <p className="text-gray-700">Price: ₱{warehouse.price}</p>
+      
+                        {/* You can add more details about the warehouse here */}
+                    </div>
+                ))}
+            </div>
+        )}
+
+
+
                         </div>
                         <div className="md:w-1/2 md:pl-8 text-base card">
                             <h1 className="text-3xl font-semibold mb-4">{warehouse.name}</h1>
-                            <div className="text-lg mb-4"><strong>Uploader:</strong> {uploaderInfo ? `${uploaderInfo.first_name} ${uploaderInfo.last_name}` : 'Unknown'}</div>
+                            <div className="text-lg mb-4"><strong>Lessor:</strong> {uploaderInfo ? `${uploaderInfo.first_name} ${uploaderInfo.last_name}` : 'Unknown'}</div>
                             <div className="text-lg mb-4"><strong>Status:</strong> <span className="text-green-500">{warehouse.status}</span></div>
                             <div className="text-lg mb-4"><strong>Address:</strong> {warehouse.address}</div>
                             <div className="text-lg mb-4"><strong>Description:</strong> {warehouse.description}</div>
@@ -309,14 +358,7 @@ const handleCloseModal = () => {
     <button className="bg-blue-500 text-white font-semibold py-2 px-12 rounded hover:bg-blue-600 transition duration-300" style={{ flex: 1 }} onClick={handleRentButtonClick}>
         Rent
     </button>
-    <button
-                                type="button"
-                                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-                                onClick={() => handleShow360Tour(warehouse.image360Url)}
-                            >
-                                Show 360 Tour
-                            </button>
-
+ 
 
     <button 
         className="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-2 px-12 rounded shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1"

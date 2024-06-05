@@ -15,6 +15,8 @@ import logoutIcon from '../images/logout1.png';
 import dashboardIcon from '../images/dashboard.png';
 import locationIcon from '../images/location.png';
 import searchIcon from '../images/search.png';
+import { getAuth, EmailAuthProvider } from 'firebase/auth'; // Make sure to import these
+
 import checkedIcon from '../images/checked.png';
 import errorIcon from '../images/mark.png';
 import Navbar from './Navbar';
@@ -154,25 +156,60 @@ const [showReauthenticationErrorPopup, setShowReauthenticationErrorPopup] = useS
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordStrength, setPasswordStrength] = useState('');
     const [initialFormData, setInitialFormData] = useState({});
     const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
     const [confirmSave, setConfirmSave] = useState(false);
 
+    const calculatePasswordStrength = (password) => {
+        const specialCharRegex = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
+        const numberRegex = /[0-9]/;
+        const uppercaseRegex = /[A-Z]/;
+
+        const hasSpecialChar = specialCharRegex.test(password);
+        const hasNumber = numberRegex.test(password);
+        const hasUppercase = uppercaseRegex.test(password);
+
+        if (password.length >= 8 && hasSpecialChar && hasNumber && hasUppercase) {
+            setPasswordStrength('Strong');
+        } else if (password.length >= 6 && (hasSpecialChar || hasNumber || hasUppercase)) {
+            setPasswordStrength('Moderate');
+        } else {
+            setPasswordStrength('Weak');
+        }
+    };
+
+    const isPasswordValid = () => {
+        const specialCharRegex = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
+        const numberRegex = /[0-9]/;
+        const uppercaseRegex = /[A-Z]/;
+
+        const hasSpecialChar = specialCharRegex.test(newPassword);
+        const hasNumber = numberRegex.test(newPassword);
+        const hasUppercase = uppercaseRegex.test(newPassword);
+
+        return newPassword.length >= 8 && hasSpecialChar && hasNumber && hasUppercase;
+    };
+
+    const showErrorMessage = () => {
+        if (newPassword && !isPasswordValid()) {
+            return 'Please follow the password instructions.';
+        }
+        return errorMessage;
+    };
+
     const handleChangePassword = () => {
-        
         // Check if the new password and confirm password match
         if (newPassword !== confirmPassword) {
-            setShowDontMatchPopup(true);
+            setErrorMessage('Passwords do not match.');
             return;
         }
         if (!currentPassword || !newPassword || !confirmPassword) {
-            setErrorMessage('Please fill in all fields.'); // Set the error message
-            setShowPopup(true); // Show the popup
+            setErrorMessage('Please fill in all fields.');
             return;
         }
-        
-    
-   // Check if the user is authenticated using email/password
+
+        // Check if the user is authenticated using email/password
    const user = auth.currentUser;
    if (user.providerData[0].providerId !== 'password') {
        setShowAuthProviderPopup(true);
@@ -206,6 +243,7 @@ const [showReauthenticationErrorPopup, setShowReauthenticationErrorPopup] = useS
             });
             
     };
+    
     
     
     useEffect(() => {
@@ -418,7 +456,7 @@ const handleProfileImageChange = (e) => {
         <h2 className="text-2xl font-bold mb-4 text-center">Profile Information</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-6">
-                            <h4 className=" mb-4 block text-red-500">All fields are required to be filled</h4>
+                            <h4 className=" mb-4 block text-red-500">*All fields are required to be filled</h4>
                             <label htmlFor="first_name" className="block text-gray-700 mb-1" >First Name:</label>
                             <div className="relative">
                                 <input type="text" id="first_name" name="first_name" value={formData.first_name} onChange={handleInputChange} className={`form-input pl-3 py-2   rounded-md w-full ${editMode.first_name ? 'bg-gray-100' : 'bg-gray-300'}`} disabled={!editMode.first_name} />
@@ -518,55 +556,67 @@ const handleProfileImageChange = (e) => {
     <h2 className="text-2xl font-bold mb-4 text-center">Change Password</h2>
     {/* Current Password */}
     <div className="mb-6">
-        <label htmlFor="current_password" className="block text-gray-700 mb-1">Current Password:</label>
-        <div className="relative">
-            <input
-                type="password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                placeholder="Current Password"
-                className="form-input pl-3 py-2 rounded-md w-full bg-gray-300"
-            />
-        </div>
-    </div>
+                <label htmlFor="current_password" className="block text-gray-700 mb-1">Current Password:</label>
+                <div className="relative">
+                    <input
+                        type="password"
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        placeholder="Current Password"
+                        className="form-input pl-3 py-2 rounded-md w-full bg-gray-300"
+                    />
+                </div>
+            </div>
 {/* New Password */}
 <div className="mb-6">
-<label htmlFor="new_password" className="block text-gray-700 mb-1">New Password:</label>
-        <div className="relative">
-            <input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="New Password"
-                className="form-input pl-3 py-2 rounded-md w-full bg-gray-300"
-            />
-        </div>
-    </div>
-  
+                <label htmlFor="new_password" className="block text-gray-700 mb-1">New Password:</label>
+                <div className="relative">
+                    <input
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => {
+                            setNewPassword(e.target.value);
+                            calculatePasswordStrength(e.target.value);
+                        }}
+                        placeholder="New Password"
+                        className="form-input pl-3 py-2 rounded-md w-full bg-gray-300"
+                    />
+                </div>
+                <div className={`text-${passwordStrength === 'Strong' ? 'green' : passwordStrength === 'Moderate' ? 'yellow' : 'red'}-500`}>
+                    Password Strength: {passwordStrength}
+                </div>
+                <div className="text-gray-600">
+                    Password must contain at least 8 characters, including one special character, one number, and one uppercase letter.
+                </div>
+            </div>
 {/* Confirm Password */}
-<div className="mb-6">
-<label htmlFor="confirm_password" className="block text-gray-700 mb-1">Confirm Password:</label>
-        <div className="relative">
-            <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm Password"
-                className="form-input pl-3 py-2 rounded-md w-full bg-gray-300"
-            />
+   {/* Confirm Password */}
+   <div className="mb-6">
+                <label htmlFor="confirm_password" className="block text-gray-700 mb-1">Confirm Password:</label>
+                <div className="relative">
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Confirm Password"
+                        className="form-input pl-3 py-2 rounded-md w-full bg-gray-300"
+                    />
+                </div>
+            </div>
+  {/* CHANGE PASSWORD button */}
+  <div className="flex justify-end mb-6">
+                <button
+                    type="button"
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                      disabled={!isPasswordValid()} 
+                    onClick={handleChangePassword}
+                >
+                    Change Password
+                </button>
+            </div>
+            {showErrorMessage() && <p className="text-red-600 mb-2 sm:mb-4">{showErrorMessage()}</p>}
         </div>
-    </div>
-{/* CHANGE PASSWORD button */}
-<div className="flex justify-end mb-6">
-        <button
-            type="button"
-            className="bg-green-500 hover:bg-green  -700 text-white font-bold py-2 px-4 rounded"
-            onClick={handleChangePassword}
-        >
-            Change Password
-        </button>
-    </div>
-    </div>
+    
                     </form>
                     {successMessage && (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 success-popup">
