@@ -11,6 +11,7 @@ import editMessageIcon from '../images/editmessage.png';
 import moreIcon from '../images/more.png';
 import documentIcon from '../images/document.png';
 import deleteIcon from '../images/delete.png';
+import sendIcon from '../images/send-message.png';
 
 const Conversation = () => {
     const { conversationId } = useParams();
@@ -287,7 +288,7 @@ const Conversation = () => {
     <div className="flex flex-col flex-grow bg-gray-100 chat-container h-full">
     <div className="chat-content overflow-y-auto px-2 md:px-4 py-4 md:py-6">
     {messages.length === 0 && (
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg p-4">
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg p-4 ml-80">
                 <p className="text-xl text-gray-700 font-semibold mb-4 text-center">Start a conversation</p>
             </div>
         )}
@@ -361,7 +362,7 @@ const Conversation = () => {
         ))}
         <div ref={messagesEndRef} />
     </div>
-    <div className="flex items-center bg-white px-4 py-3">
+    <div className="flex items-center bg-white px-4 py-3 rounded-full">
         <input
             type="text"
             className="flex-grow border border-gray-300 rounded-full py-2 px-4 mr-4 focus:outline-none"
@@ -370,15 +371,15 @@ const Conversation = () => {
             onChange={(e) => setMessageInput(e.target.value)}
         />
         <label htmlFor="file-upload" className="flex items-center cursor-pointer">
-            <img src={fileIcon} alt="File Icon" className="w-6 h-6 mr-2" />
+            <img src={fileIcon} alt="File Icon" className="w-6 h-6 mr-2 " />
             <input id="file-upload" type="file" className="hidden" onChange={handleFileUpload} />
         </label>
         <button
-            className="bg-blue-500 text-white font-semibold py-2 px-4 md:py-3 md:px-6 rounded-full hover:bg-blue-600 transition duration-300"
-            onClick={sendMessage}
-        >
-            Send
-        </button>
+    className=" text-white font-semibold py-2 px-4 md:py-3 md:px-6 rounded-full hover:bg-gray-200 transition duration-300"
+    onClick={sendMessage}
+>
+    <img src={sendIcon} alt="Send" className="w-6 h-6 " />
+</button>
     </div>
 </div>
 
