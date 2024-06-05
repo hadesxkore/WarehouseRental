@@ -820,16 +820,16 @@ return (
 
 
 
-       {/* Warehouse Upload Modal */}
+      {/* Warehouse Upload Modal */}
 {showUploadModal && (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-75 z-50">
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg shadow-md w-full max-w-4xl">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-md w-full max-w-6xl">
             <h2 className="text-2xl font-bold mb-4">Upload Warehouse Details</h2>
             <form onSubmit={handleSubmit} className="flex flex-col">
                 {/* Form Inputs */}
                 <div className="flex flex-wrap -mx-4">
                     {/* Warehouse Name */}
-                    <div className="w-full md:w-1/2 px-4 mb-4">
+                    <div className="w-full md:w-1/3 px-4 mb-4">
                         <label className="block text-lg font-medium mb-2" htmlFor="name">Warehouse Name</label>
                         <input
                             type="text"
@@ -842,13 +842,26 @@ return (
                         />
                     </div>
                     {/* Address */}
-                    <div className="w-full md:w-1/2 px-4 mb-4">
+                    <div className="w-full md:w-1/3 px-4 mb-4">
                         <label className="block text-lg font-medium mb-2" htmlFor="address">Address</label>
                         <input
                             type="text"
                             id="address"
                             name="address"
                             value={warehouseData.address}
+                            onChange={handleWarehouseDataChange}
+                            className="input-field"
+                            required
+                        />
+                    </div>
+                    {/* Price */}
+                    <div className="w-full md:w-1/3 px-4 mb-4">
+                        <label className="block text-lg font-medium mb-2" htmlFor="price">Price</label>
+                        <input
+                            type="number"
+                            id="price"
+                            name="price"
+                            value={warehouseData.price}
                             onChange={handleWarehouseDataChange}
                             className="input-field"
                             required
@@ -862,25 +875,13 @@ return (
                             name="description"
                             value={warehouseData.description}
                             onChange={handleWarehouseDataChange}
-                            rows="4"
+                            rows="2"
                             className="textarea-field"
                             required
                         ></textarea>
                     </div>
-                    {/* Price */}
+                    {/* 360 Image Link */}
                     <div className="w-full md:w-1/2 px-4 mb-4">
-                        <label className="block text-lg font-medium mb-2" htmlFor="price">Price</label>
-                        <input
-                            type="number"
-                            id="price"
-                            name="price"
-                            value={warehouseData.price}
-                            onChange={handleWarehouseDataChange}
-                            className="input-field"
-                            required
-                        />
-                    </div>
-                    <div className="w-full px-4 mb-4">
                         <label className="block text-lg font-medium mb-2" htmlFor="image360Url">360 Image Link</label>
                         <input
                             type="url"
@@ -893,59 +894,56 @@ return (
                             required
                         />
                     </div>
-                    {/* Upload Images */}
-                    <div className="w-full px-4 mb-4">
-                        <div className="flex items-center justify-between">
-                            <label className="block text-lg font-medium mb-2">Upload Images</label>
-                            <label htmlFor="image-upload" className="upload-btn">Upload</label>
+                    {/* Upload Images and Videos */}
+                    <div className="w-full md:w-1/2 px-4 mb-4">
+                        <div className="flex justify-between">
+                            {/* Upload Images */}
+                            <div className="flex items-center mb-2">
+                                <label className="block text-lg font-medium mr-2">Upload Images</label>
+                                <label htmlFor="image-upload" className="upload-btn">Upload</label>
+                            </div>
+                            {/* Upload Videos */}
+                            <div className="flex items-center mb-2">
+                                <label className="block text-lg font-medium mr-2">Upload Videos</label>
+                                <label htmlFor="video-upload" className="upload-btn">Upload</label>
+                            </div>
                         </div>
                         <input id="image-upload" type="file" onChange={handleImageUpload} accept="image/*" className="hidden" />
-                        {uploading && <p className="text-sm text-gray-500">Uploading...</p>}
-                    </div>
-                    {/* Upload Videos */}
-                    <div className="w-full px-4 mb-4">
-                        <div className="flex items-center justify-between">
-                            <label className="block text-lg font-medium mb-2">Upload Videos</label>
-                            <label htmlFor="video-upload" className="upload-btn">Upload</label>
-                        </div>
                         <input id="video-upload" type="file" onChange={handleVideoUpload} accept="video/*" className="hidden" />
                         {uploading && <p className="text-sm text-gray-500">Uploading...</p>}
                     </div>
-                  
                     {/* Amenities */}
                     <div className="w-full px-4 mb-4">
                         <label className="block text-lg font-medium mb-2">Amenities</label>
-                        <div className="amenities-container">
+                        <div className="amenities-container flex flex-wrap">
                             {amenitiesList.map((amenity, index) => (
-                                <label key={index} className="amenity-item">
+                                <label key={index} className="amenity-item flex items-center mr-4 mb-2">
                                     <input
                                         type="checkbox"
                                         name={amenity.name}
                                         checked={selectedAmenities.some(item => item.name === amenity.name)}
                                         onChange={() => handleAmenitySelection(amenity)}
                                     />
-                                    <img src={amenity.icon} alt={amenity.name} className="w-6 h-6" />
+                                    <img src={amenity.icon} alt={amenity.name} className="w-6 h-6 ml-2" />
                                     {amenity.name}
                                 </label>
                             ))}
                         </div>
-                        
                     </div>
                 </div>
-                
-               {/* Buttons */}
-<div className="w-full px-4 mb-4">
-    <div className="flex justify-end">
-        <button type="button" className="bg-red-500 text-white font-semibold py-2 px-4 rounded hover:bg-red-600 transition duration-300 mr-2" onClick={() => setShowUploadModal(false)}>Cancel</button>
-        <button type="submit" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-300 mr-2">Submit</button>
-        <button type="button" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-300" onClick={handleShowMap}>Show Map</button>
-    </div>
-</div>
-
+                {/* Buttons */}
+                <div className="w-full px-4 mb-4">
+                    <div className="flex justify-end">
+                        <button type="button" className="bg-red-500 text-white font-semibold py-2 px-4 rounded hover:bg-red-600 transition duration-300 mr-2" onClick={() => setShowUploadModal(false)}>Cancel</button>
+                        <button type="submit" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-300 mr-2">Submit</button>
+                        <button type="button" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-300" onClick={handleShowMap}>Show Map</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
-)} 
+)}
+
 
 
 
