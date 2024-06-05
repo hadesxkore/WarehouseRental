@@ -1096,15 +1096,16 @@ return (
 )}
 
 {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={handleCloseModal}>&times;</span>
-                        <div id="panolens-container" style={{ width: '100%', height: '800px' }}></div>
-                        <button onClick={handleFullscreen}>Enter Fullscreen</button>
+    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-75 z-50">
+        <div className="relative bg-white p-4 rounded-lg shadow-md w-full max-w-6xl">
+            <span className="absolute top-2 right-2 text-2xl cursor-pointer" onClick={handleCloseModal}>&times;</span>
+            <div id="panolens-container" style={{ width: '100%', height: '600px' }}></div>
+            <div className="flex justify-center mt-4">
+            </div>
+        </div>
+    </div>
+)}
 
-                    </div>
-                </div>
-            )}
     {currentView === 'rented' && (
         <div className={`${showRentedWarehousesModal ? 'block' : 'hidden'}`}>
             <div className="container mx-auto px-4 mt-10">
