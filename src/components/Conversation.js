@@ -286,37 +286,35 @@ const Conversation = () => {
 
     <div className="flex flex-col flex-grow bg-gray-100 chat-container h-full">
     <div className="chat-content overflow-y-auto px-2 md:px-4 py-4 md:py-6">
-        {messages.length === 0 && (
-            <div className="absolute top-25 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg p-4">
+    {messages.length === 0 && (
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg p-4">
                 <p className="text-xl text-gray-700 font-semibold mb-4 text-center">Start a conversation</p>
             </div>
         )}
         {messages.map((message, index) => (
             <div key={index} className={`mb-4 relative ${message.senderId === currentUserId ? 'text-right' : 'text-left'}`}>
-                <div className={`relative ${message.senderId === currentUserId ? 'ml-auto bg-white text-black' : 'mr-auto bg-gray-300'} p-4 rounded-lg inline-block`}>
+                <div className={`relative ${message.senderId === currentUserId ?'bg-white text-gray-800' : 'bg-blue-400 text-white'} p-4 rounded-lg inline-block`}>
                     {message.type === 'text' && (
                         <p className="text-xl">{message.text}</p>
                     )}
-                    {message.type === 'file' && message.fileType === 'image' && (
+                   {message.type === 'file' && message.fileType === 'image' && (
                         <div>
                             <img
                                 src={message.fileURL}
                                 alt="Uploaded File"
-                                className="w-24 h-24 md:w-32 md:h-32 cursor-pointer"
+                                className="w-32 h-32 cursor-pointer"
                                 onClick={() => {
                                     setModalVisible(true);
                                     setImageUrl(message.fileURL);
                                 }}
                             />
-                            {modalVisible && imageUrl === message.fileURL && (
+                             {modalVisible && imageUrl === message.fileURL && (
                                 <div className="modal-overlay">
                                     <div className="modal-content">
-                                        <img src={message.fileURL} alt="Uploaded File" style={{ maxWidth: '80%', maxHeight: '80%', margin: 'auto', display: 'block' }} />
-                                        <div className="button-container">
-                                            <button className="close-button" onClick={() => setModalVisible(false)}>Close</button>
-                                            <a href={message.fileURL} download={message.fileName} target="_blank" rel="noopener noreferrer" className="download-button">
-                                                <button>Download</button>
-                                            </a>
+                                        <img src={message.fileURL} alt="Uploaded File" className="max-w-full max-h-full mx-auto" />
+                                        <div className="button-container mt-4 flex justify-center">
+                                            <button className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-600 transition duration-300 mr-2" onClick={() => setModalVisible(false)}>Close</button>
+                                            <a href={message.fileURL} download={message.fileName} target="_blank" rel="noopener noreferrer" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-600 transition duration-300 ml-2">Download</a>
                                         </div>
                                     </div>
                                 </div>
@@ -341,7 +339,7 @@ const Conversation = () => {
                     </div>
                 </div>
                 {message.senderId === currentUserId && (
-                    <div className="relative">
+                    <div className="relative flex items-center ml-4">
                         {moreMessageId === message.id && (
                             <div className="absolute top-0 -right-8 mb-8 mr-8 bg-white rounded-lg shadow-lg">
                                 <button className="block w-full text-left px-4 py-2 hover:bg-gray-200" onClick={() => handleEditMessage(message.id)}>
@@ -363,7 +361,7 @@ const Conversation = () => {
         ))}
         <div ref={messagesEndRef} />
     </div>
-    <div className="flex items-center bg-white px-2 md:px-4 py-2 md:py-3 message-input-container rounded-2xl">
+    <div className="flex items-center bg-white px-4 py-3">
         <input
             type="text"
             className="flex-grow border border-gray-300 rounded-full py-2 px-4 mr-4 focus:outline-none"
@@ -372,7 +370,7 @@ const Conversation = () => {
             onChange={(e) => setMessageInput(e.target.value)}
         />
         <label htmlFor="file-upload" className="flex items-center cursor-pointer">
-            <img src={fileIcon} alt="File Icon" className="w-6 h-6 md:w-7 md:h-7 mr-2" />
+            <img src={fileIcon} alt="File Icon" className="w-6 h-6 mr-2" />
             <input id="file-upload" type="file" className="hidden" onChange={handleFileUpload} />
         </label>
         <button
