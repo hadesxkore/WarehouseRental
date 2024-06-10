@@ -26,7 +26,7 @@ const Footer = () => {
                         <li>Contact us</li>
                         <li>FAQs</li>
                         <li>Video Tutorials</li>
-                        <li>Broker Academy</li>
+                    
                         <li>Popular Searches</li>
                     </ul>
                 </div>
@@ -37,11 +37,7 @@ const Footer = () => {
                     <ul className="footer-list">
                         <li>Trends</li>
                         <li>Press</li>
-                        <li>Lamudi Scholarship</li>
                         <li>Success Stories</li>
-                        <li>The Outlook Awards</li>
-                        <li>Broker Awards</li>
-                        <li>City Insider</li>
                     </ul>
                 </div>
 
