@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Update import to use useNavigate
 import { auth, firestore } from '../firebase'; // Import Firebase authentication
 import WarehouseCard from './WarehouseCard'; // Import WarehouseCard component
-import logo from '../images/logo.png';
+import logo from '../images/WhereHouseLogo.png';
 import locationIcon from '../images/location.png';
 import searchIcon from '../images/search.png';
 import clearIcon from '../images/broom.png';
