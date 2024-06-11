@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion'; // Import motion from Framer Motion
-import logo from '../images/logo.png';
+import logo from '../images/WhereHouseLogo.png';
 import { firestore } from '../firebase'; // Import firestore from Firebase
 import firebase from 'firebase/compat/app'; // Import firebase from Firebase
 
@@ -119,7 +119,7 @@ function SignUpPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen" style={{ backgroundColor: '#eeeeee' }}>
-      <div className="logo-container text-center mb-32">
+      <div className="logo-container text-center mb-44">
         <img src={logo} alt="Logo" className="logo" style={{ width: '200px', margin: '0 auto'}} />
       </div>
       <button 
