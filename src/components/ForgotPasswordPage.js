@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion'; // Import motion from Framer Motion
-import logo from '../images/logo.png';
+import logo from '../images/WhereHouseLogo.png';
 import lockIcon from '../images/lock.png'; // Import the lock icon image
 import { auth } from '../firebase'; // Import Firebase auth
 
